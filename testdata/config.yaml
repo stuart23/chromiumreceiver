@@ -1,0 +1,10 @@
+chromium:
+  endpoint: ws://localhost:9222
+  collection_interval: 30s
+
+chromium/customname:
+  endpoint: ws://localhost:9223
+  collection_interval: 60s
+  metrics:
+    chromium.targets.count:
+      enabled: true
