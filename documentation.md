@@ -16,205 +16,205 @@ metrics:
 
 Number of documents in the page.
 
-| Unit | Metric Type | Value Type |
-| ---- | ----------- | ---------- |
-| {document} | Gauge | Int |
+| Unit | Metric Type | Value Type | Stability |
+| ---- | ----------- | ---------- | --------- |
+| {document} | Gauge | Int | Alpha |
 
 #### Attributes
 
-| Name | Description | Values | Optional |
+| Name | Description | Values | Requirement Level |
 | ---- | ----------- | ------ | -------- |
-| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | false |
-| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | false |
-| target.url | The URL of the browser target. | Any Str | false |
+| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | Recommended |
+| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | Recommended |
+| target.url | The URL of the browser target. | Any Str | Recommended |
 
 ### chromium.page.dom_node.count
 
 Number of DOM nodes in the page.
 
-| Unit | Metric Type | Value Type |
-| ---- | ----------- | ---------- |
-| {node} | Gauge | Int |
+| Unit | Metric Type | Value Type | Stability |
+| ---- | ----------- | ---------- | --------- |
+| {node} | Gauge | Int | Alpha |
 
 #### Attributes
 
-| Name | Description | Values | Optional |
+| Name | Description | Values | Requirement Level |
 | ---- | ----------- | ------ | -------- |
-| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | false |
-| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | false |
-| target.url | The URL of the browser target. | Any Str | false |
+| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | Recommended |
+| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | Recommended |
+| target.url | The URL of the browser target. | Any Str | Recommended |
 
 ### chromium.page.frame.count
 
 Number of frames in the page.
 
-| Unit | Metric Type | Value Type |
-| ---- | ----------- | ---------- |
-| {frame} | Gauge | Int |
+| Unit | Metric Type | Value Type | Stability |
+| ---- | ----------- | ---------- | --------- |
+| {frame} | Gauge | Int | Alpha |
 
 #### Attributes
 
-| Name | Description | Values | Optional |
+| Name | Description | Values | Requirement Level |
 | ---- | ----------- | ------ | -------- |
-| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | false |
-| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | false |
-| target.url | The URL of the browser target. | Any Str | false |
+| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | Recommended |
+| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | Recommended |
+| target.url | The URL of the browser target. | Any Str | Recommended |
 
 ### chromium.page.js_event_listener.count
 
 Number of JavaScript event listeners in the page.
 
-| Unit | Metric Type | Value Type |
-| ---- | ----------- | ---------- |
-| {listener} | Gauge | Int |
+| Unit | Metric Type | Value Type | Stability |
+| ---- | ----------- | ---------- | --------- |
+| {listener} | Gauge | Int | Alpha |
 
 #### Attributes
 
-| Name | Description | Values | Optional |
+| Name | Description | Values | Requirement Level |
 | ---- | ----------- | ------ | -------- |
-| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | false |
-| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | false |
-| target.url | The URL of the browser target. | Any Str | false |
+| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | Recommended |
+| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | Recommended |
+| target.url | The URL of the browser target. | Any Str | Recommended |
 
 ### chromium.page.js_heap.total_size
 
 Total JavaScript heap size.
 
-| Unit | Metric Type | Value Type |
-| ---- | ----------- | ---------- |
-| By | Gauge | Int |
+| Unit | Metric Type | Value Type | Stability |
+| ---- | ----------- | ---------- | --------- |
+| By | Gauge | Int | Alpha |
 
 #### Attributes
 
-| Name | Description | Values | Optional |
+| Name | Description | Values | Requirement Level |
 | ---- | ----------- | ------ | -------- |
-| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | false |
-| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | false |
-| target.url | The URL of the browser target. | Any Str | false |
+| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | Recommended |
+| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | Recommended |
+| target.url | The URL of the browser target. | Any Str | Recommended |
 
 ### chromium.page.js_heap.used_size
 
 Used JavaScript heap size.
 
-| Unit | Metric Type | Value Type |
-| ---- | ----------- | ---------- |
-| By | Gauge | Int |
+| Unit | Metric Type | Value Type | Stability |
+| ---- | ----------- | ---------- | --------- |
+| By | Gauge | Int | Alpha |
 
 #### Attributes
 
-| Name | Description | Values | Optional |
+| Name | Description | Values | Requirement Level |
 | ---- | ----------- | ------ | -------- |
-| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | false |
-| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | false |
-| target.url | The URL of the browser target. | Any Str | false |
+| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | Recommended |
+| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | Recommended |
+| target.url | The URL of the browser target. | Any Str | Recommended |
 
 ### chromium.page.layout.count
 
 Cumulative count of full or partial page layouts.
 
-| Unit | Metric Type | Value Type | Aggregation Temporality | Monotonic |
-| ---- | ----------- | ---------- | ----------------------- | --------- |
-| {layout} | Sum | Int | Cumulative | true |
+| Unit | Metric Type | Value Type | Aggregation Temporality | Monotonic | Stability |
+| ---- | ----------- | ---------- | ----------------------- | --------- | --------- |
+| {layout} | Sum | Int | Cumulative | true | Alpha |
 
 #### Attributes
 
-| Name | Description | Values | Optional |
+| Name | Description | Values | Requirement Level |
 | ---- | ----------- | ------ | -------- |
-| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | false |
-| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | false |
-| target.url | The URL of the browser target. | Any Str | false |
+| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | Recommended |
+| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | Recommended |
+| target.url | The URL of the browser target. | Any Str | Recommended |
 
 ### chromium.page.layout.duration
 
 Cumulative duration of page layout operations.
 
-| Unit | Metric Type | Value Type | Aggregation Temporality | Monotonic |
-| ---- | ----------- | ---------- | ----------------------- | --------- |
-| s | Sum | Double | Cumulative | true |
+| Unit | Metric Type | Value Type | Aggregation Temporality | Monotonic | Stability |
+| ---- | ----------- | ---------- | ----------------------- | --------- | --------- |
+| s | Sum | Double | Cumulative | true | Alpha |
 
 #### Attributes
 
-| Name | Description | Values | Optional |
+| Name | Description | Values | Requirement Level |
 | ---- | ----------- | ------ | -------- |
-| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | false |
-| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | false |
-| target.url | The URL of the browser target. | Any Str | false |
+| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | Recommended |
+| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | Recommended |
+| target.url | The URL of the browser target. | Any Str | Recommended |
 
 ### chromium.page.recalc_style.count
 
 Cumulative count of CSS style recalculations.
 
-| Unit | Metric Type | Value Type | Aggregation Temporality | Monotonic |
-| ---- | ----------- | ---------- | ----------------------- | --------- |
-| {recalculation} | Sum | Int | Cumulative | true |
+| Unit | Metric Type | Value Type | Aggregation Temporality | Monotonic | Stability |
+| ---- | ----------- | ---------- | ----------------------- | --------- | --------- |
+| {recalculation} | Sum | Int | Cumulative | true | Alpha |
 
 #### Attributes
 
-| Name | Description | Values | Optional |
+| Name | Description | Values | Requirement Level |
 | ---- | ----------- | ------ | -------- |
-| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | false |
-| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | false |
-| target.url | The URL of the browser target. | Any Str | false |
+| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | Recommended |
+| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | Recommended |
+| target.url | The URL of the browser target. | Any Str | Recommended |
 
 ### chromium.page.recalc_style.duration
 
 Cumulative duration of CSS style recalculations.
 
-| Unit | Metric Type | Value Type | Aggregation Temporality | Monotonic |
-| ---- | ----------- | ---------- | ----------------------- | --------- |
-| s | Sum | Double | Cumulative | true |
+| Unit | Metric Type | Value Type | Aggregation Temporality | Monotonic | Stability |
+| ---- | ----------- | ---------- | ----------------------- | --------- | --------- |
+| s | Sum | Double | Cumulative | true | Alpha |
 
 #### Attributes
 
-| Name | Description | Values | Optional |
+| Name | Description | Values | Requirement Level |
 | ---- | ----------- | ------ | -------- |
-| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | false |
-| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | false |
-| target.url | The URL of the browser target. | Any Str | false |
+| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | Recommended |
+| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | Recommended |
+| target.url | The URL of the browser target. | Any Str | Recommended |
 
 ### chromium.page.script.duration
 
 Cumulative duration of JavaScript execution.
 
-| Unit | Metric Type | Value Type | Aggregation Temporality | Monotonic |
-| ---- | ----------- | ---------- | ----------------------- | --------- |
-| s | Sum | Double | Cumulative | true |
+| Unit | Metric Type | Value Type | Aggregation Temporality | Monotonic | Stability |
+| ---- | ----------- | ---------- | ----------------------- | --------- | --------- |
+| s | Sum | Double | Cumulative | true | Alpha |
 
 #### Attributes
 
-| Name | Description | Values | Optional |
+| Name | Description | Values | Requirement Level |
 | ---- | ----------- | ------ | -------- |
-| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | false |
-| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | false |
-| target.url | The URL of the browser target. | Any Str | false |
+| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | Recommended |
+| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | Recommended |
+| target.url | The URL of the browser target. | Any Str | Recommended |
 
 ### chromium.page.task.duration
 
 Cumulative duration of all tasks.
 
-| Unit | Metric Type | Value Type | Aggregation Temporality | Monotonic |
-| ---- | ----------- | ---------- | ----------------------- | --------- |
-| s | Sum | Double | Cumulative | true |
+| Unit | Metric Type | Value Type | Aggregation Temporality | Monotonic | Stability |
+| ---- | ----------- | ---------- | ----------------------- | --------- | --------- |
+| s | Sum | Double | Cumulative | true | Alpha |
 
 #### Attributes
 
-| Name | Description | Values | Optional |
+| Name | Description | Values | Requirement Level |
 | ---- | ----------- | ------ | -------- |
-| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | false |
-| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | false |
-| target.url | The URL of the browser target. | Any Str | false |
+| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | Recommended |
+| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | Recommended |
+| target.url | The URL of the browser target. | Any Str | Recommended |
 
 ### chromium.targets.count
 
 Number of active browser targets.
 
-| Unit | Metric Type | Value Type |
-| ---- | ----------- | ---------- |
-| {target} | Gauge | Int |
+| Unit | Metric Type | Value Type | Stability |
+| ---- | ----------- | ---------- | --------- |
+| {target} | Gauge | Int | Alpha |
 
 #### Attributes
 
-| Name | Description | Values | Optional |
+| Name | Description | Values | Requirement Level |
 | ---- | ----------- | ------ | -------- |
-| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | false |
-| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | false |
+| chromium.endpoint | Chrome DevTools Protocol WebSocket endpoint URL. | Any Str | Recommended |
+| target.type | The type of the target (page, background_page, service_worker, browser, etc). | Any Str | Recommended |

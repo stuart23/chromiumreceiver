@@ -119,6 +119,7 @@ func (m *metricChromiumPageDocumentCount) emit(metrics pmetric.MetricSlice) {
 
 func newMetricChromiumPageDocumentCount(cfg MetricConfig) metricChromiumPageDocumentCount {
 	m := metricChromiumPageDocumentCount{config: cfg}
+
 	if cfg.Enabled {
 		m.data = pmetric.NewMetric()
 		m.init()
@@ -172,6 +173,7 @@ func (m *metricChromiumPageDomNodeCount) emit(metrics pmetric.MetricSlice) {
 
 func newMetricChromiumPageDomNodeCount(cfg MetricConfig) metricChromiumPageDomNodeCount {
 	m := metricChromiumPageDomNodeCount{config: cfg}
+
 	if cfg.Enabled {
 		m.data = pmetric.NewMetric()
 		m.init()
@@ -225,6 +227,7 @@ func (m *metricChromiumPageFrameCount) emit(metrics pmetric.MetricSlice) {
 
 func newMetricChromiumPageFrameCount(cfg MetricConfig) metricChromiumPageFrameCount {
 	m := metricChromiumPageFrameCount{config: cfg}
+
 	if cfg.Enabled {
 		m.data = pmetric.NewMetric()
 		m.init()
@@ -278,6 +281,7 @@ func (m *metricChromiumPageJsEventListenerCount) emit(metrics pmetric.MetricSlic
 
 func newMetricChromiumPageJsEventListenerCount(cfg MetricConfig) metricChromiumPageJsEventListenerCount {
 	m := metricChromiumPageJsEventListenerCount{config: cfg}
+
 	if cfg.Enabled {
 		m.data = pmetric.NewMetric()
 		m.init()
@@ -331,6 +335,7 @@ func (m *metricChromiumPageJsHeapTotalSize) emit(metrics pmetric.MetricSlice) {
 
 func newMetricChromiumPageJsHeapTotalSize(cfg MetricConfig) metricChromiumPageJsHeapTotalSize {
 	m := metricChromiumPageJsHeapTotalSize{config: cfg}
+
 	if cfg.Enabled {
 		m.data = pmetric.NewMetric()
 		m.init()
@@ -384,6 +389,7 @@ func (m *metricChromiumPageJsHeapUsedSize) emit(metrics pmetric.MetricSlice) {
 
 func newMetricChromiumPageJsHeapUsedSize(cfg MetricConfig) metricChromiumPageJsHeapUsedSize {
 	m := metricChromiumPageJsHeapUsedSize{config: cfg}
+
 	if cfg.Enabled {
 		m.data = pmetric.NewMetric()
 		m.init()
@@ -439,6 +445,7 @@ func (m *metricChromiumPageLayoutCount) emit(metrics pmetric.MetricSlice) {
 
 func newMetricChromiumPageLayoutCount(cfg MetricConfig) metricChromiumPageLayoutCount {
 	m := metricChromiumPageLayoutCount{config: cfg}
+
 	if cfg.Enabled {
 		m.data = pmetric.NewMetric()
 		m.init()
@@ -494,6 +501,7 @@ func (m *metricChromiumPageLayoutDuration) emit(metrics pmetric.MetricSlice) {
 
 func newMetricChromiumPageLayoutDuration(cfg MetricConfig) metricChromiumPageLayoutDuration {
 	m := metricChromiumPageLayoutDuration{config: cfg}
+
 	if cfg.Enabled {
 		m.data = pmetric.NewMetric()
 		m.init()
@@ -549,6 +557,7 @@ func (m *metricChromiumPageRecalcStyleCount) emit(metrics pmetric.MetricSlice) {
 
 func newMetricChromiumPageRecalcStyleCount(cfg MetricConfig) metricChromiumPageRecalcStyleCount {
 	m := metricChromiumPageRecalcStyleCount{config: cfg}
+
 	if cfg.Enabled {
 		m.data = pmetric.NewMetric()
 		m.init()
@@ -604,6 +613,7 @@ func (m *metricChromiumPageRecalcStyleDuration) emit(metrics pmetric.MetricSlice
 
 func newMetricChromiumPageRecalcStyleDuration(cfg MetricConfig) metricChromiumPageRecalcStyleDuration {
 	m := metricChromiumPageRecalcStyleDuration{config: cfg}
+
 	if cfg.Enabled {
 		m.data = pmetric.NewMetric()
 		m.init()
@@ -659,6 +669,7 @@ func (m *metricChromiumPageScriptDuration) emit(metrics pmetric.MetricSlice) {
 
 func newMetricChromiumPageScriptDuration(cfg MetricConfig) metricChromiumPageScriptDuration {
 	m := metricChromiumPageScriptDuration{config: cfg}
+
 	if cfg.Enabled {
 		m.data = pmetric.NewMetric()
 		m.init()
@@ -714,6 +725,7 @@ func (m *metricChromiumPageTaskDuration) emit(metrics pmetric.MetricSlice) {
 
 func newMetricChromiumPageTaskDuration(cfg MetricConfig) metricChromiumPageTaskDuration {
 	m := metricChromiumPageTaskDuration{config: cfg}
+
 	if cfg.Enabled {
 		m.data = pmetric.NewMetric()
 		m.init()
@@ -730,7 +742,7 @@ type metricChromiumTargetsCount struct {
 // init fills chromium.targets.count metric with initial data.
 func (m *metricChromiumTargetsCount) init() {
 	m.data.SetName("chromium.targets.count")
-	m.data.SetDescription("Number of active targets reported by Chromium.")
+	m.data.SetDescription("Number of active browser targets.")
 	m.data.SetUnit("{target}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -766,6 +778,7 @@ func (m *metricChromiumTargetsCount) emit(metrics pmetric.MetricSlice) {
 
 func newMetricChromiumTargetsCount(cfg MetricConfig) metricChromiumTargetsCount {
 	m := metricChromiumTargetsCount{config: cfg}
+
 	if cfg.Enabled {
 		m.data = pmetric.NewMetric()
 		m.init()
@@ -776,11 +789,11 @@ func newMetricChromiumTargetsCount(cfg MetricConfig) metricChromiumTargetsCount 
 // MetricsBuilder provides an interface for scrapers to report metrics while taking care of all the transformations
 // required to produce metric representation defined in metadata and user config.
 type MetricsBuilder struct {
-	config                                   MetricsBuilderConfig // config of the metrics builder.
-	startTime                                pcommon.Timestamp    // start time that will be applied to all recorded data points.
-	metricsCapacity                          int                  // maximum observed number of metrics per resource.
-	metricsBuffer                            pmetric.Metrics      // accumulates metrics data before emitting.
-	buildInfo                                component.BuildInfo  // contains version information.
+	config                                 MetricsBuilderConfig // config of the metrics builder.
+	startTime                              pcommon.Timestamp    // start time that will be applied to all recorded data points.
+	metricsCapacity                        int                  // maximum observed number of metrics per resource.
+	metricsBuffer                          pmetric.Metrics      // accumulates metrics data before emitting.
+	buildInfo                              component.BuildInfo  // contains version information.
 	metricChromiumPageDocumentCount        metricChromiumPageDocumentCount
 	metricChromiumPageDomNodeCount         metricChromiumPageDomNodeCount
 	metricChromiumPageFrameCount           metricChromiumPageFrameCount
@@ -815,10 +828,10 @@ func WithStartTime(startTime pcommon.Timestamp) MetricBuilderOption {
 }
 func NewMetricsBuilder(mbc MetricsBuilderConfig, settings receiver.Settings, options ...MetricBuilderOption) *MetricsBuilder {
 	mb := &MetricsBuilder{
-		config:                                   mbc,
-		startTime:                                pcommon.NewTimestampFromTime(time.Now()),
-		metricsBuffer:                            pmetric.NewMetrics(),
-		buildInfo:                                settings.BuildInfo,
+		config:                                 mbc,
+		startTime:                              pcommon.NewTimestampFromTime(time.Now()),
+		metricsBuffer:                          pmetric.NewMetrics(),
+		buildInfo:                              settings.BuildInfo,
 		metricChromiumPageDocumentCount:        newMetricChromiumPageDocumentCount(mbc.Metrics.ChromiumPageDocumentCount),
 		metricChromiumPageDomNodeCount:         newMetricChromiumPageDomNodeCount(mbc.Metrics.ChromiumPageDomNodeCount),
 		metricChromiumPageFrameCount:           newMetricChromiumPageFrameCount(mbc.Metrics.ChromiumPageFrameCount),

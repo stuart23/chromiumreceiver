@@ -26,7 +26,7 @@ func TestCreateDefaultConfig(t *testing.T) {
 	chromiumCfg, ok := cfg.(*Config)
 	require.True(t, ok)
 	assert.Equal(t, "", chromiumCfg.Endpoint)
-	assert.Equal(t, 30*time.Second, chromiumCfg.ControllerConfig.CollectionInterval)
+	assert.Equal(t, 30*time.Second, chromiumCfg.CollectionInterval)
 }
 
 func TestCreateMetricsReceiver(t *testing.T) {

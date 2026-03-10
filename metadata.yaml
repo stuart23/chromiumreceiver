@@ -23,25 +23,28 @@ attributes:
     type: string
 
 metrics:
-  chromium.targets.count:
-    description: Number of active browser targets.
-    enabled: true
-    gauge:
-      value_type: int
-    unit: "{target}"
-    attributes: [ chromium.endpoint, target.type ]
-
   chromium.page.document.count:
     description: Number of documents in the page.
     enabled: true
+    stability: alpha
     gauge:
       value_type: int
     unit: "{document}"
     attributes: [ chromium.endpoint, target.type, target.url ]
 
+  chromium.page.dom_node.count:
+    description: Number of DOM nodes in the page.
+    enabled: true
+    stability: alpha
+    gauge:
+      value_type: int
+    unit: "{node}"
+    attributes: [ chromium.endpoint, target.type, target.url ]
+
   chromium.page.frame.count:
     description: Number of frames in the page.
     enabled: true
+    stability: alpha
     gauge:
       value_type: int
     unit: "{frame}"
@@ -50,22 +53,34 @@ metrics:
   chromium.page.js_event_listener.count:
     description: Number of JavaScript event listeners in the page.
     enabled: true
+    stability: alpha
     gauge:
       value_type: int
     unit: "{listener}"
     attributes: [ chromium.endpoint, target.type, target.url ]
 
-  chromium.page.dom_node.count:
-    description: Number of DOM nodes in the page.
+  chromium.page.js_heap.total_size:
+    description: Total JavaScript heap size.
     enabled: true
+    stability: alpha
     gauge:
       value_type: int
-    unit: "{node}"
+    unit: By
+    attributes: [ chromium.endpoint, target.type, target.url ]
+
+  chromium.page.js_heap.used_size:
+    description: Used JavaScript heap size.
+    enabled: true
+    stability: alpha
+    gauge:
+      value_type: int
+    unit: By
     attributes: [ chromium.endpoint, target.type, target.url ]
 
   chromium.page.layout.count:
     description: Cumulative count of full or partial page layouts.
     enabled: true
+    stability: alpha
     sum:
       value_type: int
       monotonic: true
@@ -73,19 +88,10 @@ metrics:
     unit: "{layout}"
     attributes: [ chromium.endpoint, target.type, target.url ]
 
-  chromium.page.recalc_style.count:
-    description: Cumulative count of CSS style recalculations.
-    enabled: true
-    sum:
-      value_type: int
-      monotonic: true
-      aggregation_temporality: cumulative
-    unit: "{recalculation}"
-    attributes: [ chromium.endpoint, target.type, target.url ]
-
   chromium.page.layout.duration:
     description: Cumulative duration of page layout operations.
     enabled: true
+    stability: alpha
     sum:
       value_type: double
       monotonic: true
@@ -93,9 +99,21 @@ metrics:
     unit: s
     attributes: [ chromium.endpoint, target.type, target.url ]
 
+  chromium.page.recalc_style.count:
+    description: Cumulative count of CSS style recalculations.
+    enabled: true
+    stability: alpha
+    sum:
+      value_type: int
+      monotonic: true
+      aggregation_temporality: cumulative
+    unit: "{recalculation}"
+    attributes: [ chromium.endpoint, target.type, target.url ]
+
   chromium.page.recalc_style.duration:
     description: Cumulative duration of CSS style recalculations.
     enabled: true
+    stability: alpha
     sum:
       value_type: double
       monotonic: true
@@ -106,6 +124,7 @@ metrics:
   chromium.page.script.duration:
     description: Cumulative duration of JavaScript execution.
     enabled: true
+    stability: alpha
     sum:
       value_type: double
       monotonic: true
@@ -116,6 +135,7 @@ metrics:
   chromium.page.task.duration:
     description: Cumulative duration of all tasks.
     enabled: true
+    stability: alpha
     sum:
       value_type: double
       monotonic: true
@@ -123,21 +143,14 @@ metrics:
     unit: s
     attributes: [ chromium.endpoint, target.type, target.url ]
 
-  chromium.page.js_heap.used_size:
-    description: Used JavaScript heap size.
+  chromium.targets.count:
+    description: Number of active browser targets.
     enabled: true
+    stability: alpha
     gauge:
       value_type: int
-    unit: By
-    attributes: [ chromium.endpoint, target.type, target.url ]
-
-  chromium.page.js_heap.total_size:
-    description: Total JavaScript heap size.
-    enabled: true
-    gauge:
-      value_type: int
-    unit: By
-    attributes: [ chromium.endpoint, target.type, target.url ]
+    unit: "{target}"
+    attributes: [ chromium.endpoint, target.type ]
 
 tests:
   skip_lifecycle: true
