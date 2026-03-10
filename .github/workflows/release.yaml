@@ -1,0 +1,29 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Verify module builds
+        run: go build ./...
+
+      - name: Run tests
+        run: go test ./...
+
+      - name: Request pkg.go.dev indexing
+        run: |
+          GOPROXY=https://proxy.golang.org GO111MODULE=on \
+            go list -m github.com/stuart23/chromiumreceiver@${GITHUB_REF_NAME}
