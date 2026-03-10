@@ -30,7 +30,7 @@ jobs:
       - name: Lint
         uses: golangci/golangci-lint-action@v6
         with:
-          version: v2
+          version: v2.11.2
 
   integration-test:
     runs-on: ubuntu-latest

@@ -57,7 +57,7 @@ func startChrome(t *testing.T) string {
 	}
 
 	cmd := exec.Command(chromePath,
-		"--headless",
+		"--headless=new",
 		"--disable-gpu",
 		"--no-sandbox",
 		"--disable-dev-shm-usage",
