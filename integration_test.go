@@ -36,25 +36,29 @@ func startChrome(t *testing.T) string {
 
 	port := findFreePort(t)
 
-	candidates := []string{
-		"chromium",
-		"chromium-browser",
-		"google-chrome",
-		"google-chrome-stable",
-		"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-		"/Applications/Chromium.app/Contents/MacOS/Chromium",
-	}
-
 	var chromePath string
-	for _, c := range candidates {
-		if p, err := exec.LookPath(c); err == nil {
-			chromePath = p
-			break
+	if p := os.Getenv("CHROME_PATH"); p != "" {
+		chromePath = p
+	} else {
+		candidates := []string{
+			"google-chrome-stable",
+			"google-chrome",
+			"chromium",
+			"chromium-browser",
+			"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+			"/Applications/Chromium.app/Contents/MacOS/Chromium",
+		}
+		for _, c := range candidates {
+			if p, err := exec.LookPath(c); err == nil {
+				chromePath = p
+				break
+			}
 		}
 	}
 	if chromePath == "" {
 		t.Skip("No Chrome/Chromium binary found; skipping integration test")
 	}
+	t.Logf("Using Chrome binary: %s", chromePath)
 
 	cmd := exec.Command(chromePath,
 		"--headless=new",
