@@ -158,6 +158,6 @@ tests:
     endpoint: ws://localhost:9222
   goleak:
     ignore:
-      top:
+      any:
         - "net/http.(*persistConn).readLoop"
         - "net/http.(*persistConn).writeLoop"
