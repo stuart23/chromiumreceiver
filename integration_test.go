@@ -61,7 +61,7 @@ func startChrome(t *testing.T) string {
 	t.Logf("Using Chrome binary: %s", chromePath)
 
 	cmd := exec.Command(chromePath,
-		"--headless=new",
+		"--headless",
 		"--disable-gpu",
 		"--no-sandbox",
 		"--disable-dev-shm-usage",

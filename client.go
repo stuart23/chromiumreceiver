@@ -40,14 +40,24 @@ type CDPClient struct {
 	browserStop context.CancelFunc
 	logger      *zap.Logger
 	endpoint    string
+
+	// targetSessions caches chromedp contexts per target ID to avoid
+	// detach/reattach cycles that can corrupt the browser session.
+	targetSessions map[target.ID]targetSession
+}
+
+type targetSession struct {
+	ctx    context.Context
+	cancel context.CancelFunc
 }
 
 // NewCDPClient creates a new CDP client that will connect to the given
 // WebSocket debugger URL (e.g. ws://localhost:9222).
 func NewCDPClient(endpoint string, logger *zap.Logger) *CDPClient {
 	return &CDPClient{
-		endpoint: endpoint,
-		logger:   logger,
+		endpoint:       endpoint,
+		logger:         logger,
+		targetSessions: make(map[target.ID]targetSession),
 	}
 }
 
@@ -73,6 +83,10 @@ func (c *CDPClient) Connect(ctx context.Context) error {
 
 // Disconnect tears down the CDP connection.
 func (c *CDPClient) Disconnect() error {
+	for id, s := range c.targetSessions {
+		s.cancel()
+		delete(c.targetSessions, id)
+	}
 	if c.browserStop != nil {
 		c.browserStop()
 	}
@@ -101,12 +115,21 @@ func (c *CDPClient) GetTargets(ctx context.Context) ([]TargetInfo, error) {
 	return infos, nil
 }
 
+// getTargetCtx returns a cached chromedp context for the given target,
+// creating one if it doesn't already exist.
+func (c *CDPClient) getTargetCtx(targetID target.ID) context.Context {
+	if s, ok := c.targetSessions[targetID]; ok {
+		return s.ctx
+	}
+	ctx, cancel := chromedp.NewContext(c.browserCtx, chromedp.WithTargetID(targetID))
+	c.targetSessions[targetID] = targetSession{ctx: ctx, cancel: cancel}
+	return ctx
+}
+
 // GetPerformanceMetrics retrieves Performance.getMetrics from a specific
-// target identified by targetID. It attaches to the target, enables the
-// Performance domain, collects metrics, and detaches.
+// target identified by targetID.
 func (c *CDPClient) GetPerformanceMetrics(ctx context.Context, targetID target.ID) (*PerformanceMetricsResult, error) {
-	targetCtx, cancel := chromedp.NewContext(c.browserCtx, chromedp.WithTargetID(targetID))
-	defer cancel()
+	targetCtx := c.getTargetCtx(targetID)
 
 	var cdpMetrics []*performance.Metric
 	if err := chromedp.Run(targetCtx,
@@ -117,6 +140,7 @@ func (c *CDPClient) GetPerformanceMetrics(ctx context.Context, targetID target.I
 			return err
 		}),
 	); err != nil {
+		delete(c.targetSessions, targetID)
 		return nil, fmt.Errorf("failed to get performance metrics for target %s: %w", targetID, err)
 	}
 
