@@ -40,6 +40,7 @@ type CDPClient struct {
 	browserStop context.CancelFunc
 	logger      *zap.Logger
 	endpoint    string
+	connected   bool
 
 	// targetSessions caches chromedp contexts per target ID to avoid
 	// detach/reattach cycles that can corrupt the browser session.
@@ -64,35 +65,48 @@ func NewCDPClient(endpoint string, logger *zap.Logger) *CDPClient {
 // Connect establishes a connection to the Chrome instance via CDP.
 func (c *CDPClient) Connect(ctx context.Context) error {
 	allocCtx, allocCancel := chromedp.NewRemoteAllocator(ctx, c.endpoint)
-	c.allocCtx = allocCtx
-	c.allocCancel = allocCancel
 
 	browserCtx, browserStop := chromedp.NewContext(allocCtx)
-	c.browserCtx = browserCtx
-	c.browserStop = browserStop
 
 	// Run an empty action to force the CDP connection to be established.
 	if err := chromedp.Run(browserCtx); err != nil {
+		browserStop()
 		allocCancel()
 		return fmt.Errorf("failed to connect to CDP endpoint %s: %w", c.endpoint, err)
 	}
+
+	c.allocCtx = allocCtx
+	c.allocCancel = allocCancel
+	c.browserCtx = browserCtx
+	c.browserStop = browserStop
+	c.connected = true
 
 	c.logger.Info("Connected to Chrome via CDP", zap.String("endpoint", c.endpoint))
 	return nil
 }
 
+// IsConnected returns whether the client has an active CDP connection.
+func (c *CDPClient) IsConnected() bool {
+	return c.connected
+}
+
 // Disconnect tears down the CDP connection.
 func (c *CDPClient) Disconnect() error {
+	c.connected = false
 	for id, s := range c.targetSessions {
 		s.cancel()
 		delete(c.targetSessions, id)
 	}
 	if c.browserStop != nil {
 		c.browserStop()
+		c.browserStop = nil
 	}
 	if c.allocCancel != nil {
 		c.allocCancel()
+		c.allocCancel = nil
 	}
+	c.browserCtx = nil
+	c.allocCtx = nil
 	return nil
 }
 
