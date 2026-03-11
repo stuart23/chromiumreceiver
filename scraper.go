@@ -44,10 +44,11 @@ var (
 )
 
 type chromiumScraper struct {
-	client   *CDPClient
-	cfg      *Config
-	settings component.TelemetrySettings
-	mb       *metadata.MetricsBuilder
+	client       *CDPClient
+	cfg          *Config
+	settings     component.TelemetrySettings
+	mb           *metadata.MetricsBuilder
+	lifecycleCtx context.Context
 }
 
 func newScraper(conf *Config, settings receiver.Settings) *chromiumScraper {
@@ -59,11 +60,14 @@ func newScraper(conf *Config, settings receiver.Settings) *chromiumScraper {
 }
 
 func (p *chromiumScraper) start(ctx context.Context, _ component.Host) error {
+	p.lifecycleCtx = ctx
 	p.client = NewCDPClient(p.cfg.Endpoint, p.settings.Logger)
 
 	if err := p.client.Connect(ctx); err != nil {
-		p.settings.Logger.Error("Failed to connect to CDP endpoint", zap.Error(err))
-		return err
+		p.settings.Logger.Warn("Failed to connect to CDP endpoint, will retry on next scrape interval",
+			zap.String("endpoint", p.cfg.Endpoint),
+			zap.Error(err))
+		return nil
 	}
 
 	p.settings.Logger.Info("Connected to Chrome via CDP", zap.String("endpoint", p.cfg.Endpoint))
@@ -82,11 +86,22 @@ func (p *chromiumScraper) scrape(ctx context.Context) (pmetric.Metrics, error) {
 		return pmetric.NewMetrics(), errClientNotInit
 	}
 
+	if !p.client.IsConnected() {
+		if err := p.client.Connect(p.lifecycleCtx); err != nil {
+			p.settings.Logger.Warn("Failed to connect to CDP endpoint, will retry on next scrape interval",
+				zap.String("endpoint", p.cfg.Endpoint),
+				zap.Error(err))
+			return pmetric.NewMetrics(), nil
+		}
+		p.settings.Logger.Info("Connected to Chrome via CDP", zap.String("endpoint", p.cfg.Endpoint))
+	}
+
 	now := pcommon.NewTimestampFromTime(time.Now())
 
 	targets, err := p.client.GetTargets(ctx)
 	if err != nil {
-		p.settings.Logger.Error("Failed to get targets", zap.Error(err))
+		p.settings.Logger.Warn("Failed to get targets, will retry on next scrape interval", zap.Error(err))
+		_ = p.client.Disconnect()
 	} else {
 		p.scrapeTargetCounts(now, targets)
 		p.scrapePagePerformanceMetrics(ctx, now, targets)

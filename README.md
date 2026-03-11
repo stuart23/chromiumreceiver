@@ -8,6 +8,17 @@
 
 This receiver connects to a Chromium-based browser via the Chrome DevTools Protocol (CDP) and collects browser performance metrics. It works with any Chromium-based browser (Chrome, Chromium, Edge) that exposes a CDP debugging endpoint.
 
+## Building a Collector with this receiver
+
+This receiver is not included in the core or contrib OpenTelemetry Collector distributions. To use it, build a custom Collector distribution using the [OpenTelemetry Collector Builder](https://github.com/open-telemetry/opentelemetry-collector/tree/main/cmd/builder) (`ocb`).
+
+Instructions on how to use the builder can be found [here](https://opentelemetry.io/docs/collector/extend/ocb/). The configuration needed in the `builder-config.yaml` to install this receiver is:
+
+```yaml
+receivers:
+  - gomod: github.com/stuart23/chromiumreceiver v0.2.0
+```
+
 ## Prerequisites
 
 Start Chrome/Chromium with the `--remote-debugging-port` flag to expose a CDP WebSocket endpoint:

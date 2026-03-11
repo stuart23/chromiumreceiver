@@ -16,7 +16,7 @@ import (
 	"github.com/stuart23/chromiumreceiver/internal/metadata"
 )
 
-func TestScraperStartFailure(t *testing.T) {
+func TestScraperStartConnectionFailureWarnsAndContinues(t *testing.T) {
 	cfg := &Config{Endpoint: "ws://localhost:19/invalid"}
 	cfg.MetricsBuilderConfig = metadata.DefaultMetricsBuilderConfig()
 
@@ -26,7 +26,35 @@ func TestScraperStartFailure(t *testing.T) {
 	defer cancel()
 
 	err := scraper.start(ctx, nil)
-	assert.Error(t, err)
+	assert.NoError(t, err, "start should warn and continue, not return an error")
+	assert.False(t, scraper.client.IsConnected())
+}
+
+func TestScraperScrapeRetriesConnectionOnNextInterval(t *testing.T) {
+	cfg := &Config{Endpoint: "ws://localhost:19/invalid"}
+	cfg.MetricsBuilderConfig = metadata.DefaultMetricsBuilderConfig()
+
+	s := newScraper(cfg, receivertest.NewNopSettings(metadata.Type))
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	// start succeeds even though CDP is unreachable.
+	err := s.start(ctx, nil)
+	require.NoError(t, err)
+	assert.False(t, s.client.IsConnected())
+
+	// First scrape: connection still unreachable — returns empty metrics, no error.
+	metrics, err := s.scrape(ctx)
+	assert.NoError(t, err, "scrape should not return an error when CDP is unreachable")
+	assert.Equal(t, 0, metrics.ResourceMetrics().Len(), "scrape should return empty metrics when not connected")
+	assert.False(t, s.client.IsConnected())
+
+	// Second scrape: still unreachable — same graceful behaviour.
+	metrics, err = s.scrape(ctx)
+	assert.NoError(t, err)
+	assert.Equal(t, 0, metrics.ResourceMetrics().Len())
+	assert.False(t, s.client.IsConnected())
 }
 
 func TestScraperScrapeNoClient(t *testing.T) {
